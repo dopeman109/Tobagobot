@@ -26,19 +26,21 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         trx_amount = 63.289571  # piemērs
         trx_address = "TTBmcp3KckYDvdWYpdET8Kx5DCJF7YVbDE"
 
-        msg = f"▶️ Insert the replenishment amount
-Minimum top-up amount: {amount}€
-
-"
-        msg += f"💸 Price for payment in TRX cryptocurrency: {trx_amount}
-"
-        msg += f"⏳ Transfer within 15 minutes exactly this amount to the address:
-`{trx_address}`"
+        msg = (
+            "▶️ Insert the replenishment amount\n"
+            f"Minimum top-up amount: {amount}€\n\n"
+            f"💸 Price for payment in TRX cryptocurrency: {trx_amount}\n"
+            f"⏳ Transfer within 15 minutes exactly this amount to the address:\n"
+            f"`{trx_address}`"
+        )
 
         await query.edit_message_text(msg, parse_mode="Markdown")
 
 def main():
     TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+    if not TOKEN:
+        raise ValueError("No TELEGRAM_BOT_TOKEN set in environment variables")
+    
     app = ApplicationBuilder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
